@@ -8,6 +8,7 @@ xcuserdata/
 *.xccheckout
 
 .DS_Store
-.xcplayground
-.xcworkspace
-playground.xcworkspace/xcuserdata/
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
