@@ -9,15 +9,22 @@ func solution(_ friends:[String], _ gifts:[String]) -> Int {
         friendsInfo[friend] = index
     }
     
+    print(friendsInfo)
+    
     // 주고 받은 선물을 표로 만든다.
     // 1. 주고 받은 사람을 표시한 표 Array(repeating: 반복할 값, count: 반복할 횟수)
     var giveGifts: [[Int]] = [[Int]](repeating: [Int](repeating: 0, count: friends.count), count: friends.count)
     // 2. 선물 지수를 계산한 표
     var giftCount: [Int] = [Int](repeating: 0, count: friends.count)
     
+    print(giveGifts)
+    print(giftCount)
+    
     // 각 표에 값을 채운다. components, split 비교
     for gift in gifts {
         let giverReceiver = gift.split(separator: " ").map { String($0) }
+        print(giverReceiver.first)
+        print(giverReceiver.last)
         // 위에서 각 friend마다 index값을 부여했기 때문에, 이를 이용하여 값을 추가한다.
         // friendsInfo의 출력값이 Optional로 표시되기 때문에 이때, Optional binding으로 이를 해결해야한다.
         if let giver = giverReceiver.first, let receiver = giverReceiver.last {
