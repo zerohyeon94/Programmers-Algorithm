@@ -1,5 +1,47 @@
 import Foundation
 
+func solution1(_ edges: [[Int]]) -> [Int] {
+    var answer = [0, 0, 0, 0]
+
+    var exchangeCnts = [Int: [Int]]()
+    for edge in edges {
+        let a = edge[0]
+        let b = edge[1]
+
+        if exchangeCnts[a] == nil {
+            exchangeCnts[a] = [0, 0]
+        }
+        if exchangeCnts[b] == nil {
+            exchangeCnts[b] = [0, 0]
+        }
+
+        // 준 것, 받은 것 카운팅
+        // a, b는 a가 b에 준 것, b가 a에게 받은 것
+        exchangeCnts[a]![0] += 1
+        exchangeCnts[b]![1] += 1
+    }
+
+    for (key, exchangeCnt) in exchangeCnts {
+        // 그래프는 최소 2개 이상으로 준 것만 2개 이상인 정점이 생성점
+        if exchangeCnt[0] >= 2 && exchangeCnt[1] == 0 {
+            answer[0] = key
+        }
+        // 받은 것만 있는 정점의 개수는 막대 그래프의 개수
+        else if exchangeCnt[0] == 0 && exchangeCnt[1] > 0 {
+            answer[2] += 1
+        }
+        // 준 것, 받은 것 각각 2개 이상인 점의 개수는 8자 그래프의 개수
+        else if exchangeCnt[0] >= 2 && exchangeCnt[1] >= 2 {
+            answer[3] += 1
+        }
+    }
+
+    // 전체 그래프 개수인 생성점의 준 것에서 2종류의 그래프를 빼면 도넛 그래프의 개수
+    answer[1] = (exchangeCnts[answer[0]]![0] - answer[2] - answer[3])
+
+    return answer
+}
+
 // edges: 그래프의 간선 정보
 func solution(_ edges:[[Int]]) -> [Int] {
     print("edges: \(edges)")
@@ -13,7 +55,7 @@ func solution(_ edges:[[Int]]) -> [Int] {
     // 3. 8자 모양 그래프
     // size n -> 정점: 2n+1개, 간선: 2n+2개
     // 본인에게오는 간선 2개, 다른 곳으로 가는 간선 2개
-    var node: Set<Int> = []
+    var nodeCount = 0
     // 결과물
     var result: [Int] = []
     var vertex: Int = 0
@@ -25,12 +67,13 @@ func solution(_ edges:[[Int]]) -> [Int] {
     for edge in edges {
         let key = edge[0]
         let value = edge[1]
-        node.insert(key)
-        node.insert(value)
+        nodeCount = max(nodeCount, key, value)
     }
     
+    print("nodeCount: \(nodeCount)")
+    
     // [보낸 횟수, 받은 횟수]
-    var exchange = [[Int]](repeating: [0, 0], count: node.count + 1)
+    var exchange = [[Int]](repeating: [0, 0], count: nodeCount + 1)
 
     for edge in edges {
         let give = edge[0]
@@ -38,6 +81,8 @@ func solution(_ edges:[[Int]]) -> [Int] {
         
         exchange[give][0] += 1
         exchange[take][1] += 1
+        print(exchange[give][0])
+        print(exchange[take][1])
     }
     
     print("exchange: \(exchange)")
