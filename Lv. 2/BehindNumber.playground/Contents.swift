@@ -52,10 +52,12 @@ func solution(_ numbers:[Int]) -> [Int] {
 
         // 뒷큰수를 구하지 못한 index를 넣는 stack이 비어있는지 아닌지 확인
         print("while문 조건: \(!stack.isEmpty && numbers[i] >= numbers[stack.last!])")
+        // 1. 스택이 비어있을 경우에는 해당 작업이 진행되지 않는다.
+        // 2. numbers의 index이 오를때마다 stack에 쌓여있는 last값과 비교하여 큰경우 진행
         while !stack.isEmpty && numbers[i] > numbers[stack.last!] {
             // stack형태로 이미 외부에서 while문의 조건을 만족하지 못하는 경우 stack에 쌓이므로 마지막에 호출된 값이 numbers[i]의 뒷큰수 이다.
-            let last = stack.removeLast()
-            result[last] = numbers[i]
+            let last = stack.removeLast() // 조건 2에서 stack index의 value 보다 더 큰 값이므로 그값을 추출한다.
+            result[last] = numbers[i] // 추출한 index 위치에 조건 2에서 확인한 number[i]의 값을 저장한다.
             print("해당 index(\(last))[값: \(numbers[last])]보다 큰 값을 가진 것을 찾았다. (그것은 index(\(i))[값: \(numbers[i])] result: \(result)")
         }
         
@@ -66,6 +68,7 @@ func solution(_ numbers:[Int]) -> [Int] {
             print("해당 index(\(i))[값: \(numbers[i])]보다 뒤에 값이 크지 않아서 스택에 쌓는다.")
         }
         stack.append(i)
+        print("stack: \(stack)")
     }
     
     return result
