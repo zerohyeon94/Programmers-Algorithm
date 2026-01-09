@@ -94,4 +94,3 @@ solution(sequence1, k1)
 solution(sequence2, k2)
 
 solution(sequence3, k3)
-
